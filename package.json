@@ -2,9 +2,14 @@
   "name": "markdown-editor",
   "version": "0.0.1",
   "scripts": {
-    "build": "node bin/package.js",
-    "compile": "node bin/client.js\n node bin/browser.js",
-    "install": "node bin/install.js"
+    "pack": "node node_modules/npm-run-all/bin/run-s/index.js private:copy private:compile private:install priavte:pack",
+    "debug": "node bin/debug.js",
+    "priavte:pack": "node bin/pack.js",
+    "private:compile": "node node_modules/npm-run-all/bin/run-p/index.js private:compile:node private:compile:browser",
+    "private:compile:node": "node bin/node",
+    "private:compile:browser": "node bin/browser",
+    "private:copy": "node bin/copy.js",
+    "private:install": "node bin/install.js"
   },
   "dependencies": {
     "babel-core": "^6.22.1",
@@ -49,6 +54,8 @@
     "webpack": "^2.4.1"
   },
   "devDependencies": {
-    "electron-packager": "^8.7.0"
+    "electron-packager": "^8.7.0",
+    "fs-extra": "^3.0.0",
+    "npm-run-all": "^4.0.2"
   }
 }

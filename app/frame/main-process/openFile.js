@@ -1,5 +1,5 @@
 const fs = require("fs");
-const markdown = require("./markdown");
+const markdown = require("./../../dist/node/markdown");
 
 /**
  *

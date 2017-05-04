@@ -1,8 +1,11 @@
 const path = require("path");
+const fse = require("fs-extra");
 const constants = require("./../constants");
 const packager = require('electron-packager');
 const info = require(path.join(constants.APP_PATH, "package.json"));
 
+fse.emptyDirSync(constants.BUILD_PATH);
+fse.outputFileSync(path.join(constants.BUILD_PATH, ".gitkeep"), "");
 packager({
     dir: constants.APP_PATH,
     appVersion: info.version,

@@ -6,9 +6,10 @@ const path = require("path");
 const fs = require("fs");
 const electron = require("electron");
 const Application = require("./frame/main-process/application");
+const UrlFromPath = require("./frame/utils/UriFromPath");
 
 
-const markdown = require("./frame/main-process/markdown");
+const markdown = require("./dist/node/markdown");
 
 const app = electron.app;
 
@@ -31,7 +32,9 @@ switch (process.argv[1]) {
         new Application("Markdown Editor", (application) => {
 
             if (!application.mainWindow) return;
-            application.mainWindow.loadURL(path.join("file://", __dirname, "/index.html"));
+
+            application.mainWindow.loadURL(UrlFromPath(path.join(__dirname, "index.html")));
+
             require("./frame/main-process/createMenu")(application.mainWindow);
 
             electron.ipcMain.on('markdown.file.export.generate.success', (event, data) => {

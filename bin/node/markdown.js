@@ -1,22 +1,21 @@
 const path = require("path");
 const webpack = require("webpack");
-const WebpackTask = require("./utils/webpack");
+const WebpackTask = require("./../utils/webpack");
 
-const constants = require("./../constants");
+const constants = require("./../../constants");
 
-const development = false;
-
-const highlightTask = new WebpackTask("browser", {
+const highlightTask = new WebpackTask("markdown", {
     externals: {
         'jquery': 'jQuery',
         'react': 'React',
-        'react-dom': 'ReactDOM'
+        'react-dom': 'ReactDOM',
+        'require': 'monacoRequire'
     },
-    entry: path.join(constants.SOURCE_PATH, "browser", "index.js"),
+    entry: path.join(constants.SOURCE_PATH, "node", "markdown", "index.js"),
     output: {
-        path: constants.DIST_PATH,
-        filename: "browser.js",
-        library: "browser",
+        path: path.join(constants.DIST_PATH, "node"),
+        filename: "markdown.js",
+        library: "markdown",
         libraryTarget: 'umd'
     },
     module: {
@@ -39,8 +38,6 @@ const highlightTask = new WebpackTask("browser", {
                     {
                         loader: 'css-loader',
                         options: {
-                            modules: true,
-                            localIdentName: '[local]_[hash:base64:5]',
                             minimize: true
                         }
                     },
@@ -57,13 +54,7 @@ const highlightTask = new WebpackTask("browser", {
             }
         ]
     },
-    plugins: development ? [
-        new webpack.DefinePlugin({
-            "process.env": {
-                NODE_ENV: JSON.stringify("development")
-            }
-        })
-    ] : [
+    plugins: [
         //new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.DefinePlugin({
             "process.env": {
@@ -86,7 +77,7 @@ const highlightTask = new WebpackTask("browser", {
         })
     ],
     devtool: false,
-    target: "web"
+    target: "async-node"
 });
 
 highlightTask.promise.catch(console.log.bind(console));
