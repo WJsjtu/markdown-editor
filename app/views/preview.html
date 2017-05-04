@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Preview</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.min.css" media="all">
+    <link rel="stylesheet" href="../lib/highlight/default.css" media="all">
+    <link rel="stylesheet" href="../lib/highlight/monokai-sublime.css" media="all">
+    <link rel="stylesheet" href="../lib/katex/katex.min.css" media="all">
+    <style>
+        body {
+            font-family: Georgia, Cambria, serif;
+        }
+
+        blockquote {
+            font-size: 1em;
+        }
+
+        pre {
+            padding: 0 !important;
+        }
+    </style>
+</head>
+<body>
+<div id="preview"></div>
+<script>
+    const $preview = document.getElementById("preview");
+    updatePreview = function (html) {
+        $preview.innerHTML = html;
+        document.querySelectorAll("#preview pre code").forEach((code) => {
+            code.className += " hljs";
+        });
+    };
+</script>
+</body>
+</html>

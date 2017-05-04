@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Markdown Editor</title>
+    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
+    <style>
+
+        body {
+            display: flex;
+            min-height: 100vh;
+            max-height: 100vh;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        #tabs {
+            flex: 1;
+            min-height: 34px;
+            max-height: 34px;
+            overflow: hidden;
+            background-color: #252526;
+        }
+
+        #main {
+            display: flex;
+            flex: 1;
+        }
+
+        #editor {
+            background-color: #252526;
+        }
+
+        .column {
+            flex: 1;
+        }
+
+    </style>
+</head>
+<body>
+
+<div id="tabs"></div>
+<div id="main">
+    <div class="column">
+        <div id="editor" style="margin-right: 5px; height: 100%;"></div>
+    </div>
+    <div class="column">
+        <div id="preview" style="margin-left: 5px; height: 100%;"></div>
+    </div>
+</div>
+<script src="lib/react/react.min.js"></script>
+<script src="lib/react/react-dom.min.js"></script>
+<script>
+    // Monaco uses a custom amd loader that over-rides node's require.
+    // Keep a reference to node's require so we can restore it after executing the amd loader file.
+    var nodeRequire = global.require;
+</script>
+<script src="lib/monaco/min/vs/loader.js"></script>
+<script>
+    // Save Monaco's amd require and restore Node's require
+    const monacoRequire = global.require;
+    global.require = nodeRequire;
+</script>
+<script src="./dist/browser.js"></script>
+<script>require("./frame/render-process/index");</script>
+</body>
+</html>

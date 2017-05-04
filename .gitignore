@@ -1,0 +1,10 @@
+/app/node_modules
+/node_modules
+.idea
+.log
+/build/**
+/app/lib/**
+/app/dist/**
+!*.gitkeep
+
+/app/frame/main-process/markdown.js

@@ -1,0 +1,13 @@
+{
+  "name": "Markdown_Editor",
+  "productName": "Markdown Editor",
+  "description": "Markdown Editor by Jason Wang",
+  "private": true,
+  "version": "0.0.1",
+  "license": "MIT",
+  "main": "main.js",
+  "scripts": {},
+  "devDependencies": {
+    "devtron": "^1.4.0"
+  }
+}
