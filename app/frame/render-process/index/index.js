@@ -1,7 +1,7 @@
 const electron = require("electron");
 const path = require("path");
 const constants = require("./../../../constants");
-const Editor = require("./Editor");
+const Editor = require("./editor");
 const loading = require("./loading");
 
 electron.webFrame.setVisualZoomLevelLimits(1, 1);

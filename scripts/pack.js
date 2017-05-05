@@ -10,6 +10,7 @@ packager({
     dir: constants.APP_PATH,
     appVersion: info.version,
     arch: "all",
+    icon: path.join(constants.APP_PATH, "assets", "app-icon", "app"),
     asar: true,
     electronVersion: require("electron/package.json").version,
     name: info.name.replace(/_/ig, " "),

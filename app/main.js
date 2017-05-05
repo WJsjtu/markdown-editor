@@ -5,6 +5,7 @@ if (/--debug/.test(process.argv[2])) {
 const path = require("path");
 const fs = require("fs");
 const electron = require("electron");
+const constants = require("./constants");
 const Application = require("./frame/main-process/application");
 const UrlFromPath = require("./frame/utils/UriFromPath");
 
@@ -33,7 +34,11 @@ switch (process.argv[1]) {
 
             if (!application.mainWindow) return;
 
-            application.mainWindow.loadURL(UrlFromPath(path.join(__dirname, "index.html")));
+            if (process.env.NODE_ENV === "development") {
+                electron.BrowserWindow.addDevToolsExtension(path.join(constants.APP_PATH, "extensions", "react-devtools", "2.1.7_0"));
+            }
+
+            application.mainWindow.loadURL(UrlFromPath(path.join(constants.APP_PATH, "index.html")));
 
             require("./frame/main-process/createMenu")(application.mainWindow);
 

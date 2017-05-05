@@ -1,4 +1,4 @@
-const electron = require('electron');
+const electron = require("electron");
 const openFile = require("./openFile");
 const exportToPDF = require("./exportToPDF");
 
@@ -10,10 +10,10 @@ module.exports = (mainWindow) => {
 
     const template = [
         {
-            label: 'File',
+            label: "File",
             submenu: [
                 {
-                    label: 'Open',
+                    label: "Open",
                     click () {
                         const filePaths = electron.dialog.showOpenDialog({
                             filters: [{
@@ -27,15 +27,15 @@ module.exports = (mainWindow) => {
                         }
                     }
                 },
-                {label: 'Save'},
-                {type: 'separator'},
+                {label: "Save", accelerator: "CommandOrControl+S"},
+                {type: "separator"},
                 {
-                    label: 'Export to PDF',
+                    label: "Export to PDF",
                     click(){
                         exportToPDF(mainWindow);
                     }
                 },
-                {label: 'Export to HTML'}
+                {label: "Export to HTML"}
             ],
         }, {
             label: "Edit",
@@ -51,12 +51,12 @@ module.exports = (mainWindow) => {
         template.unshift({
             label: electron.app.getName(),
             submenu: [
-                {role: 'about'},
-                {type: 'separator'},
-                {role: 'window'},
-                {role: 'services', submenu: []},
-                {type: 'separator'},
-                {role: 'quit'}
+                {role: "about"},
+                {type: "separator"},
+                {role: "window"},
+                {role: "services", submenu: []},
+                {type: "separator"},
+                {role: "quit"}
             ]
         })
     }

@@ -71,9 +71,6 @@ class Application {
         });
 
         this.mainWindow.on("closed", ()=> {
-            if (process.env.NODE_ENV === "development") {
-                require("devtron").uninstall();
-            }
             this.mainWindow = null;
         });
 
