@@ -6,24 +6,20 @@ const constants = require("./../../constants");
 
 const development = false;
 
-const highlightTask = new WebpackTask("tabs", {
-    externals: {
-        'jquery': 'jQuery',
-        'react': 'React',
-        'react-dom': 'ReactDOM'
-    },
-    entry: path.join(constants.SOURCE_PATH, "browser", "tabs", "index.js"),
+const highlightTask = new WebpackTask("browser", {
+
+    entry: path.join(constants.SOURCE_PATH, "browser", "index.js"),
     output: {
         path: path.join(constants.DIST_PATH, "browser"),
-        filename: "tabs.js",
-        library: "tabs",
+        filename: "app.js",
+        library: "app",
         libraryTarget: 'umd'
     },
     module: {
         rules: [
             {
                 test: /\.js$/,
-                exclude: constants.NODE_PATH,
+                exclude: [/node_modules/],
                 use: [
                     {
                         loader: "babel-loader"
@@ -31,7 +27,7 @@ const highlightTask = new WebpackTask("tabs", {
                 ]
             }, {
                 test: /\.(less|css)$/,
-
+                exclude: [/node_modules/],
                 use: [
                     {
                         loader: 'style-loader'
@@ -53,6 +49,7 @@ const highlightTask = new WebpackTask("tabs", {
                 ]
             }, {
                 test: /\.(tmpl|txt)$/,
+                exclude: [/node_modules/],
                 loader: 'raw-loader'
             }
         ]
@@ -86,7 +83,7 @@ const highlightTask = new WebpackTask("tabs", {
         })
     ],
     devtool: false,
-    target: "web"
+    target: "electron-renderer"
 });
 
 highlightTask.promise.catch(console.log.bind(console));

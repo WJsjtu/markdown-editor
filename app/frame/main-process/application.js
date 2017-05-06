@@ -1,5 +1,5 @@
 const electron = require("electron");
-
+const constants = require("../../constants");
 /**
  * @class
  */
@@ -52,9 +52,7 @@ class Application {
 
 
         if (process.env.NODE_ENV === "development") {
-            this.mainWindow.webContents.openDevTools();
-            this.mainWindow.maximize();
-            require("devtron").install();
+            Application.installDevTools();
         }
 
         this.mainWindow.on("unresponsive", (event) => {
@@ -76,6 +74,7 @@ class Application {
 
         typeof callback === "function" && callback(this);
     }
+
 
     /**
      * Make this app a single instance app.
@@ -112,5 +111,21 @@ class Application {
         return this._mainWindow;
     }
 }
+
+Application.installDevTools = () => {
+    const BrowserWindow = electron.BrowserWindow;
+    const extensions = BrowserWindow.getDevToolsExtensions();
+    if (!extensions["React Developer Tools"]) {
+        BrowserWindow.addDevToolsExtension(
+            path.join(constants.APP_PATH, "extensions", "react-devtools", "2.1.7_0")
+        );
+    }
+    if (!extensions["Redux DevTools"]) {
+        BrowserWindow.addDevToolsExtension(
+            path.join(constants.APP_PATH, "extensions", "redux-devtools", "2.15.0_0")
+        );
+    }
+    require("devtron").install();
+};
 
 module.exports = Application;

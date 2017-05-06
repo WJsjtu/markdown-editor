@@ -17,7 +17,6 @@ module.exports = (previewTemplateUrl, previewPreloadJsUrl) => {
 
     const viewer = document.getElementById('viewer');
 
-
     const updateLayout = () => {
         viewer.style.height = parseFloat(window.getComputedStyle(preview, null).height, 10) + "px";
     };
@@ -29,7 +28,10 @@ module.exports = (previewTemplateUrl, previewPreloadJsUrl) => {
     viewer.addEventListener('dom-ready', () => {
 
         if (process.env.NODE_ENV === "development") {
-            viewer.openDevTools();
+            viewer.addEventListener("contextmenu", (event) => {
+                event.stopPropagation();
+                viewer.openDevTools();
+            });
         }
 
         electron.ipcRenderer.on("markdown.preview.update", (event, editor) => {

@@ -1,8 +1,13 @@
 const electron = require("electron");
 const path = require("path");
 const constants = require("./../../../constants");
-const Editor = require("./editor");
 const loading = require("./loading");
+
+if (process.env.NODE_ENV === "development") {
+    window.addEventListener("contextmenu", (event) => {
+        electron.remote.getCurrentWindow().inspectElement(event.x, event.y);
+    });
+}
 
 electron.webFrame.setVisualZoomLevelLimits(1, 1);
 
@@ -22,20 +27,6 @@ require("./loadMonaco")(
 
         loading.hide();
 
-        window.addEventListener("resize", () => {
-            if (Editor.activeEditor) {
-                Editor.activeEditor.editor.layout();
-            }
-        });
-
-        electron.ipcRenderer.on("markdown.preview.update", (event, editor) => {
-            for (let i = 0; i < Editor.EditorInstances.length; i++) {
-                if (Editor.EditorInstances[i].id === editor.id) {
-                    Editor.EditorInstances[i].preview = editor.preview;
-                }
-            }
-        });
-
         electron.ipcRenderer.on("markdown.file.open.start", () => {
             loading.show("Opening file ...");
         });
@@ -45,48 +36,28 @@ require("./loadMonaco")(
         });
 
 
-        const updateTabBar = () => {
-            window.tabs.getTabBar(document.getElementById("tabs"), {
-                tabs: Editor.EditorInstances,
-                activeID: Editor.activeEditor ? Editor.activeEditor.id : 0,
-                onTabClick: onTabClick,
-                onTabClose: onTabClose
-            });
-        };
+        const webApp = require("./../../../dist/browser/app");
 
-        const onTabClick = (editor) => {
-            editor.activate();
-            updateTabBar();
-        };
-
-        const onTabClose = (editor) => {
-            editor.dispose();
-            if (Editor.activeEditor === editor) {
-
-                const changeActiveEditor = () => {
-                    if (Editor.EditorInstances.length) {
-                        Editor.activeEditor = Editor.EditorInstances[Editor.EditorInstances.length - 1];
-                        Editor.activeEditor.activate();
-                    }
-                };
-
-                if (editor.modified) {
-
-                }
-                changeActiveEditor();
-            }
-            updateTabBar();
-        };
+        webApp.render(document.getElementById("tabs"));
 
         electron.ipcRenderer.on("markdown.editor.create", (event, info) => {
-            const editor = new Editor(
-                path.basename(info.path),
-                info.path,
-                info.content,
-                document.getElementById("editor")
-            );
+            const editor = new webApp.Editor(info.path, path.basename(info.path), info.content, document.getElementById("editor"));
+
+            editor.on('change', (content) => {
+                electron.ipcRenderer.send('markdown.editor.change', {
+                    id: editor.id,
+                    content: content
+                });
+            });
+
+            editor.on('activate', (content) => {
+                electron.ipcRenderer.send('markdown.editor.change', {
+                    id: editor.id,
+                    content: content
+                });
+            });
+
             editor.activate();
-            updateTabBar();
         });
     }
 );

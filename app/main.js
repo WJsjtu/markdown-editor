@@ -34,10 +34,6 @@ switch (process.argv[1]) {
 
             if (!application.mainWindow) return;
 
-            if (process.env.NODE_ENV === "development") {
-                electron.BrowserWindow.addDevToolsExtension(path.join(constants.APP_PATH, "extensions", "react-devtools", "2.1.7_0"));
-            }
-
             application.mainWindow.loadURL(UrlFromPath(path.join(constants.APP_PATH, "index.html")));
 
             require("./frame/main-process/createMenu")(application.mainWindow);

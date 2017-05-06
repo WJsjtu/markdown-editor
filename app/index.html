@@ -52,6 +52,8 @@
 </div>
 <script src="lib/react/react.min.js"></script>
 <script src="lib/react/react-dom.min.js"></script>
+<script src="lib/redux/redux.min.js"></script>
+<script src="lib/redux/react-redux.min.js"></script>
 <script>
     // Monaco uses a custom amd loader that over-rides node's require.
     // Keep a reference to node's require so we can restore it after executing the amd loader file.
@@ -63,7 +65,6 @@
     const monacoRequire = global.require;
     global.require = nodeRequire;
 </script>
-<script src="./dist/browser/tabs.js"></script>
 <script>require("./frame/render-process/index");</script>
 </body>
 </html>
