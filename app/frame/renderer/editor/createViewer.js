@@ -1,4 +1,6 @@
 const electron = require("electron");
+
+const ipcMessages = require("../../../frame/constants/ipcMessages");
 const loading = require("./loading");
 
 /**
@@ -34,31 +36,20 @@ module.exports = (previewTemplateUrl, previewPreloadJsUrl) => {
             });
         }
 
-        electron.ipcRenderer.on("markdown.preview.update", (event, editor) => {
+        electron.ipcRenderer.on(ipcMessages.editor.doc.preview, (event, editor) => {
             viewer.executeJavaScript(`updatePreview(${JSON.stringify(editor.preview)})`);
         });
 
-        electron.ipcRenderer.on("markdown.preview.crash", (event) => {
-            viewer.executeJavaScript(`updatePreview("Markdown 解析器奔溃了……，请重试！")`);
-        });
-
-        electron.ipcRenderer.on("markdown.file.export.start", (event) => {
-
+        electron.ipcRenderer.on(ipcMessages.editor.file.exportStart, (event) => {
             loading.show("Exporting file ...");
-
-            viewer.printToPDF({
-                pageSize: "A4",
-                printBackground: true
-            }, (error, data) => {
-                if (!error) {
-                    electron.ipcRenderer.send("markdown.file.export.generate.success", data);
-                } else {
-                    electron.ipcRenderer.send("markdown.file.export.generate.fail");
-                }
-            });
+            viewer.executeJavaScript(`getRenderedHtml()`);
         });
 
-        electron.ipcRenderer.on("markdown.file.export.end", (event) => {
+        electron.ipcRenderer.on(ipcMessages.editor.file.exportError, (event) => {
+            loading.hide();
+        });
+
+        electron.ipcRenderer.on(ipcMessages.editor.file.exportSuccess, (event) => {
             loading.hide();
         });
 

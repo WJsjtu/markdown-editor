@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {DragSource, DropTarget} from 'react-dnd';
 import Tab from './Tab';
-import {TAB as TabType} from '../constants/dndTypes';
+import {TAB as TabType} from '../../constants/dndTypes';
 import styles from './less/index.less';
 
 const tabSource = {

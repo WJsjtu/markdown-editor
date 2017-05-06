@@ -28,9 +28,9 @@ export function activateTab(id) {
     }
 }
 
-export function modifyTab(id) {
+export function modifyTab(id, modified) {
     return {
         type: actionTypes.tabActions.MODIFY,
-        payload: {id}
+        payload: {id, modified}
     }
 }

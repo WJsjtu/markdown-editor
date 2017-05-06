@@ -32,14 +32,18 @@ export default class Tab extends Component {
 
     render() {
 
-        const {title, mode} = this.props;
+        const {title, mode, modified} = this.props;
 
         return (
             <div className={[styles['tab'], styles[mode]].join(' ')} onClick={this.onClick}>
                 <div className={styles['title']}>
                     {title}
                 </div>
-                <div className={styles['close']} onClick={this.onClose}>×</div>
+                <div className={styles['close']} onClick={this.onClose}>{modified ? (
+                    <span className='glyphicon glyphicon-record'> </span>
+                ) : (
+                    <span className='glyphicon glyphicon-remove'> </span>
+                )}</div>
             </div>
         );
     }

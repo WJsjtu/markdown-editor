@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {DropTarget} from "react-dnd";
 import TabDraggable from "./TabDraggable";
-import {TAB as TabType} from '../constants/dndTypes';
+import {TAB as TabType} from '../../constants/dndTypes';
 import styles from "./less/index.less"
 
 const cardTarget = {

@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Markdown Editor</title>
-    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.min.css">
     <style>
 
         body {
@@ -50,21 +50,18 @@
         <div id="preview" style="margin-left: 5px; height: 100%;"></div>
     </div>
 </div>
-<script src="lib/react/react.min.js"></script>
-<script src="lib/react/react-dom.min.js"></script>
-<script src="lib/redux/redux.min.js"></script>
-<script src="lib/redux/react-redux.min.js"></script>
 <script>
+
     // Monaco uses a custom amd loader that over-rides node's require.
     // Keep a reference to node's require so we can restore it after executing the amd loader file.
     var nodeRequire = global.require;
 </script>
-<script src="lib/monaco/min/vs/loader.js"></script>
+<script src="../lib/monaco/min/vs/loader.js"></script>
 <script>
     // Save Monaco's amd require and restore Node's require
     const monacoRequire = global.require;
     global.require = nodeRequire;
 </script>
-<script>require("./frame/render-process/index");</script>
+<script>require("../frame/renderer/editor");</script>
 </body>
 </html>

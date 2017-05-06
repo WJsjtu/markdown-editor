@@ -65,13 +65,12 @@ export default class Editor extends Events {
 
             const content = this.editor.model.getValue();
 
-            if (App.store.getState().active === this.id) {
+            if (App.store.getState().tabs.active === this.id) {
+
                 this.trigger('change', content);
             }
 
-            if (this.content !== content) {
-                App.store.dispatch(tabActions.modifyTab(this.id))
-            }
+            App.store.dispatch(tabActions.modifyTab(this.id, this.content !== content))
 
         });
 
