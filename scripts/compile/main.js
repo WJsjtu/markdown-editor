@@ -38,6 +38,8 @@ const defaultOptions = {
         }),
         new webpack.optimize.UglifyJsPlugin({
             sourceMap: development,
+            mangle: !development,
+            beautify: development,
             compress: development ? false : {
                 warnings: false
             },
@@ -46,7 +48,7 @@ const defaultOptions = {
             }
         })
     ],
-    devtool: development ? 'eval' : false,
+    devtool: development ? 'source-map' : false,
     target: 'electron-main',
     stats: 'normal'
 };
