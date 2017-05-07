@@ -57,6 +57,7 @@ class EditorWindow {
             minWidth: width,
             height: height,
             minHeight: height,
+            backgroundColor: '#ffffff',
             title: 'Markdown Editor',
             show: false
         });
