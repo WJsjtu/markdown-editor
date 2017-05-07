@@ -45,9 +45,8 @@ export default function tabs(state = initialState, action) {
 
             return (function () {
 
-                if (fromID !== toI) {
-
-                    const {fromID, toID} = action.payload;
+                const {fromID, toID} = action.payload;
+                if (fromID !== toID) {
                     tabState.active = fromID;
                     const fromIndex = tabState.order.indexOf(fromID), toIndex = tabState.order.indexOf(toID);
                     if (fromIndex != -1 && toIndex != -1) {

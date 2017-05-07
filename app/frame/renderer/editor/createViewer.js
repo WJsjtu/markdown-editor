@@ -20,7 +20,7 @@ module.exports = (previewTemplateUrl, previewPreloadJsUrl) => {
     const viewer = document.getElementById('viewer');
 
     const updateLayout = () => {
-        viewer.style.height = parseFloat(window.getComputedStyle(preview, null).height, 10) + "px";
+        viewer.style.height = parseFloat(document.defaultView.getComputedStyle(preview, null).height, 10) + "px";
     };
 
     updateLayout();

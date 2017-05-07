@@ -40,7 +40,7 @@ export default class Tab extends Component {
                     {title}
                 </div>
                 <div className={styles['close']} onClick={this.onClose}>{modified ? (
-                    <span className='glyphicon glyphicon-record'> </span>
+                    <span className='glyphicon glyphicon-remove-circle'> </span>
                 ) : (
                     <span className='glyphicon glyphicon-remove'> </span>
                 )}</div>

@@ -217,33 +217,21 @@ class EditorWindow {
             const targetPath = dialog.showSaveDialog({
                 title: 'Exported pdf'
             });
-            const data = `<!DOCTYPE html>
+
+            if (targetPath) {
+                const data = `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>${path.basename(targetPath)}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        body {
-            font-family: Georgia, Cambria, serif;
-        }
-
-        blockquote {
-            font-size: 1em;
-        }
-
-        pre {
-            padding: 0 !important;
-        }
-    </style>
 </head>
 <body>
 ` + content + `
 </body>
 </html>`;
 
-            if (targetPath) {
                 fs.writeFile(targetPath, data, (err) => {
                     this.window.webContents.send(err ? ipcMessages.editor.file.exportError : ipcMessages.editor.file.exportSuccess);
                 });

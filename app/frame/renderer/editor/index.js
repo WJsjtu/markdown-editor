@@ -1,6 +1,6 @@
-const electron = require("electron");
 const path = require("path");
-
+const electron = require("electron");
+const {ipcRenderer} = electron;
 const React = require('react');
 const ReactDOM = require('react-dom');
 
@@ -27,49 +27,44 @@ const viewer = require("./createViewer")(
 );
 
 
-require("./loadMonaco")(
-    UrlFromPath(path.resolve(constants.LID_PATH, "monaco/min")),
-    () => {
+require("./loadMonaco")(UrlFromPath(path.resolve(constants.LID_PATH, "monaco/min")), () => {
+    loading.hide();
+    ipcRenderer.on(ipcMessages.editor.file.openStart, () => {
+        loading.show("Opening file ...");
+    });
+
+    ipcRenderer.on(ipcMessages.editor.file.openError, () => {
+        loading.hide();
+    });
+
+
+    const webApp = require("./../../../dist/renderer/app");
+
+    ReactDOM.render(React.createElement(webApp.Root, {}), document.getElementById("tabs"));
+
+    const $editor = document.getElementById("editor");
+
+    ipcRenderer.on(ipcMessages.editor.file.openSuccess, (event, info) => {
 
         loading.hide();
 
-        electron.ipcRenderer.on(ipcMessages.editor.file.openStart, () => {
-            loading.show("Opening file ...");
-        });
+        const editor = new webApp.Editor(info.path, path.basename(info.path), info.content, $editor);
 
-        electron.ipcRenderer.on(ipcMessages.editor.file.openError, () => {
-            loading.hide();
-        });
-
-
-        const webApp = require("./../../../dist/renderer/app");
-
-        ReactDOM.render(React.createElement(webApp.Root, {}), document.getElementById("tabs"));
-
-        const $editor = document.getElementById("editor");
-
-        electron.ipcRenderer.on(ipcMessages.editor.file.openSuccess, (event, info) => {
-
-            loading.hide();
-
-            const editor = new webApp.Editor(info.path, path.basename(info.path), info.content, $editor);
-
-            editor.on('change', (content) => {
-                electron.ipcRenderer.send(ipcMessages.editor.doc.change, {
-                    id: editor.id,
-                    content: content
-                });
+        editor.on('change', (content) => {
+            ipcRenderer.send(ipcMessages.editor.doc.change, {
+                id: editor.id,
+                content: content
             });
-
-            editor.on('activate', (content) => {
-                electron.ipcRenderer.send(ipcMessages.editor.doc.change, {
-                    id: editor.id,
-                    content: content
-                });
-            });
-
-            editor.activate();
         });
 
-    }
-);
+        editor.on('activate', (content) => {
+            ipcRenderer.send(ipcMessages.editor.doc.change, {
+                id: editor.id,
+                content: content
+            });
+        });
+
+        editor.activate();
+    });
+
+});

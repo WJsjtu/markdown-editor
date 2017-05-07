@@ -11,11 +11,16 @@ window.getRenderedHtml = () => {
     range.selectNodeContents(document.getElementById('preview'));
     selection.removeAllRanges();
     selection.addRange(range);
-    document.execCommand('copy');
+
+    let tryTimeLimit = 4;
+
+    while (!document.execCommand('copy')) tryTimeLimit--;
 
     const html = electron.clipboard.readHTML();
     selection.removeAllRanges();
-    electron.clipboard.clear();
 
-    electron.ipcRenderer.send(ipcMessages.editor.doc.exportHTML, html);
+    setTimeout(() => {
+        electron.ipcRenderer.send(ipcMessages.editor.doc.exportHTML, html);
+        electron.clipboard.clear();
+    }, 100);
 };
