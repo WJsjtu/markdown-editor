@@ -27,11 +27,80 @@
 <div id="preview"></div>
 <script>
     const $preview = document.getElementById("preview");
-    updatePreview = function (html) {
+    window.updatePreview = function (html) {
         $preview.innerHTML = html;
-        document.querySelectorAll("#preview pre code").forEach((code) => {
-            code.className += " hljs";
-        });
+    };
+
+
+    const getOffset = (el) => {
+        const box = el.getBoundingClientRect();
+
+        return {
+            top: box.top + window.pageYOffset - document.documentElement.clientTop,
+            left: box.left + window.pageXOffset - document.documentElement.clientLeft
+        };
+    };
+
+    window.scrollAnimateHandler = null;
+
+    window.updateScroll = function (lineNumber) {
+
+        const getScrollTop = () => {
+            var lineFrom = lineNumber;
+
+            var line = document.querySelector(`[line-from="${lineNumber}"]`);
+
+            while (!line && lineFrom > 0) {
+                lineFrom--;
+                line = document.querySelector(`[line-from="${lineFrom}"]`);
+            }
+
+            if (line) {
+                if (lineFrom == lineNumber) {
+                    return getOffset(line).top;
+                } else {
+                    const lineTo = parseInt(line.getAttribute('line-to'), 10);
+                    if (!isNaN(lineTo) && lineFrom != lineTo) {
+                        const percent = (lineNumber - lineFrom) / (lineTo - lineFrom);
+                        const lineHeight = parseFloat(document.defaultView.getComputedStyle(line, null).height, 10);
+                        return getOffset(line).top + lineHeight * percent;
+                    }
+                }
+            }
+            return false;
+        };
+
+        const scrollTop = getScrollTop();
+
+        if (scrollTop !== false) {
+
+            const animate = function (targetTop) {
+                var start, frameHandler;
+                var currentTop = parseFloat(document.body.scrollTop);
+                var deltaTop = targetTop - currentTop;
+
+                var duration = 200;
+
+                var drawFrame = function () {
+                    var deltaTime = Date.now() - start;
+                    if (deltaTime < duration) {
+                        document.body.scrollTop = currentTop + deltaTop * deltaTime / duration;
+                        frameHandler = window.requestAnimationFrame(drawFrame);
+                    } else {
+                        window.cancelAnimationFrame(frameHandler);
+                        document.body.scrollTop = targetTop;
+                    }
+                };
+
+                start = Date.now();
+                frameHandler = window.requestAnimationFrame(drawFrame);
+                return frameHandler;
+            };
+
+            window.cancelAnimationFrame(window.scrollAnimateHandler);
+            window.scrollAnimateHandler = animate(scrollTop);
+        }
+
     };
 </script>
 </body>

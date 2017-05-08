@@ -74,6 +74,10 @@ export default class Editor extends Events {
 
         });
 
+
+        this.editor.onDidScrollChange((event) => {
+            this.trigger('scroll', event);
+        });
     }
 
     activate() {

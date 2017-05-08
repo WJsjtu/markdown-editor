@@ -57,6 +57,14 @@ require("./loadMonaco")(UrlFromPath(path.resolve(constants.LID_PATH, "monaco/min
             });
         });
 
+        editor.on('scroll', () => {
+
+            const info = editor.editor.getCompletelyVisibleLinesRangeInViewport();
+            if (info.startLineNumber) {
+                viewer.executeJavaScript(`updateScroll(${info.startLineNumber})`);
+            }
+        });
+
         editor.on('activate', (content) => {
             ipcRenderer.send(ipcMessages.editor.doc.change, {
                 id: editor.id,

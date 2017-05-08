@@ -9,6 +9,7 @@ const ipcMessages = {
             exportSuccess: true,
         },
         doc: {
+            scroll: true,
             change: true,
             preview: true,
             exportHTML: true
