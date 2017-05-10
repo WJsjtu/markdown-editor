@@ -5,7 +5,7 @@ const path = require('path');
 
 const EditorWindow = require('./windows/editor');
 
-process.on("uncaughtException", console.log.bind(console));
+process.on('uncaughtException', console.log.bind(console));
 
 let mainWindow = null;
 
@@ -31,14 +31,14 @@ const makeSingleInstance = () => {
 if (makeSingleInstance()) return app.quit();
 
 app.on('ready', () => {
-    mainWindow = new EditorWindow();
+    mainWindow = (new EditorWindow()).window;
 });
 
 app.on('window-all-closed', () => {
+    mainWindow = null;
     if (process.platform !== 'darwin') app.quit();
-
 });
 
 app.on('activate', () => {
-    if (mainWindow === null) mainWindow = new EditorWindow();
+    if (mainWindow === null) mainWindow = (new EditorWindow()).window;
 });

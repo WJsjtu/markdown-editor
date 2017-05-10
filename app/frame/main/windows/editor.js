@@ -80,11 +80,11 @@ class EditorWindow {
 
         });
 
-        this.window.on('close', (event)=> {
+        this.window.on('close', (event) => {
             //Todo: if there are unsaved modified files.
         });
 
-        this.window.on('closed', ()=> {
+        this.window.on('closed', () => {
             this.window = null;
             this.responsive = false;
             this.updateMenu();
@@ -175,7 +175,7 @@ class EditorWindow {
 
             if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
 
-                const content = fs.readFileSync(filePath, 'utf-8');
+                const content = fs.readFileSync(filePath, 'utf8');
 
                 if (content) {
                     this.window.webContents.send(ipcMessages.editor.file.openSuccess, {
@@ -229,7 +229,7 @@ class EditorWindow {
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-` + content + `
+${content}
 </body>
 </html>`;
 

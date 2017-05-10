@@ -2,8 +2,8 @@
   "name": "markdown-editor",
   "version": "0.0.2",
   "scripts": {
-    "pack": "run-s private:copy private:compile:prod private:install private:pack",
-    "debug": "run-s private:copy private:compile:dev private:install private:debug",
+    "pack": "run-s private:prebuild private:copy private:compile:prod private:install private:pack",
+    "debug": "run-s private:prebuild private:copy private:compile:dev private:install private:debug",
     "private:debug": "electron ./app --debug",
     "private:pack": "node scripts/pack.js",
     "private:compile:dev": "cross-env NODE_ENV=development run-p private:compile:main private:compile:renderer",
@@ -11,7 +11,8 @@
     "private:compile:main": "node --trace-warnings scripts/compile/main.js",
     "private:compile:renderer": "node --trace-warnings scripts/compile/renderer.js",
     "private:copy": "node scripts/copy.js",
-    "private:install": "node scripts/install.js"
+    "private:install": "node scripts/install.js",
+    "private:prebuild": "node app/frame/constants/ipcMessages.genrator.js"
   },
   "dependencies": {
     "bootstrap": "^3.3.7",
