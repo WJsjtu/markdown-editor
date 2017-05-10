@@ -1,6 +1,6 @@
 {
   "name": "markdown-editor",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "scripts": {
     "pack": "run-s private:copy private:compile:prod private:install private:pack",
     "debug": "run-s private:copy private:compile:dev private:install private:debug",
@@ -16,7 +16,6 @@
   "dependencies": {
     "bootstrap": "^3.3.7",
     "highlight.js": "^9.11.0",
-    "immutable": "^3.8.1",
     "katex": "^0.7.1",
     "markdown-it": "^8.3.1",
     "markdown-it-abbr": "^1.0.4",

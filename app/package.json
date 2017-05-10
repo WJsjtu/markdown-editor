@@ -3,7 +3,7 @@
   "productName": "Markdown Editor",
   "description": "Markdown Editor by Jason Wang",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "MIT",
   "main": "main.js",
   "scripts": {},

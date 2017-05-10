@@ -89,7 +89,7 @@ const mainPath = path.join(constants.SOURCE_PATH, 'main');
 
     const options = Object.assign({}, defaultOptions);
 
-    if (stats.isFile()) {
+    if (stats.isFile() && subPath.match(/\.js(x)?$/ig)) {
         options.entry = currentPath;
         options.output.filename = path.basename(currentPath);
         configs.push(options);

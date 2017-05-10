@@ -102,16 +102,16 @@ const defaultOptions = {
 
 const configs = [];
 
-const mainPath = path.join(constants.SOURCE_PATH, 'renderer');
+const renderPath = path.join(constants.SOURCE_PATH, 'renderer');
 
-(fs.readdirSync(mainPath) || []).forEach((subPath) => {
+(fs.readdirSync(renderPath) || []).forEach((subPath) => {
 
-    const currentPath = path.join(mainPath, subPath);
+    const currentPath = path.join(renderPath, subPath);
     const stats = fs.statSync(currentPath);
 
     const options = Object.assign({}, defaultOptions);
 
-    if (stats.isFile()) {
+    if (stats.isFile() && subPath.match(/\.js(x)?$/ig)) {
         options.entry = currentPath;
         options.output.filename = path.basename(currentPath);
         configs.push(options);
