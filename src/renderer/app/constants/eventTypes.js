@@ -1,1 +1,0 @@
-export const REDUX_TAB_EVENT = 'REDUX_TAB_EVENT';

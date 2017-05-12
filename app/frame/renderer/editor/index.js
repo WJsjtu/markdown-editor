@@ -26,6 +26,10 @@ const viewer = require("./createViewer")(
     UrlFromPath(path.resolve(constants.VIEW_PATH, "preview_preload.js"))
 );
 
+const App = require("./../../../dist/renderer/app").default;
+const webApp = new App();
+const tabView = webApp.createTabView(document.getElementById("tabs"));
+const editorView = webApp.createEditorView(document.getElementById("editor"));
 
 require("./loadMonaco")(UrlFromPath(path.resolve(constants.LID_PATH, "monaco/min")), () => {
     loading.hide();
@@ -37,42 +41,41 @@ require("./loadMonaco")(UrlFromPath(path.resolve(constants.LID_PATH, "monaco/min
         loading.hide();
     });
 
-
-    const webApp = require("./../../../dist/renderer/app");
-
-    ReactDOM.render(React.createElement(webApp.Root, {}), document.getElementById("tabs"));
-
-    const $editor = document.getElementById("editor");
-
     ipcRenderer.on(ipcMessages.editor.file.openSuccess, (event, info) => {
 
         loading.hide();
 
-        const editor = new webApp.Editor(info.path, path.basename(info.path), info.content, $editor);
+        const file = webApp.store.addFile({
+            title: path.basename(info.path),
+            path: info.path,
+            content: info.content
+        });
 
-        editor.on('change', (content) => {
+
+        ipcRenderer.send(ipcMessages.editor.doc.change, {
+            id: file.id,
+            content: file.content
+        });
+
+        webApp.store.on('change', (id, content) => {
             ipcRenderer.send(ipcMessages.editor.doc.change, {
-                id: editor.id,
+                id: id,
                 content: content
             });
         });
 
-        editor.on('scroll', () => {
-
-            const info = editor.editor.getCompletelyVisibleLinesRangeInViewport();
-            if (info.startLineNumber) {
-                viewer.executeJavaScript(`updateScroll(${info.startLineNumber})`);
+        webApp.store.on('scroll', (id, line) => {
+            if (line) {
+                viewer.executeJavaScript(`updateScroll(${line})`);
             }
         });
 
-        editor.on('activate', (content) => {
+        webApp.store.on('moveToFront', (id, content) => {
             ipcRenderer.send(ipcMessages.editor.doc.change, {
-                id: editor.id,
+                id: id,
                 content: content
             });
         });
-
-        editor.activate();
     });
 
 });

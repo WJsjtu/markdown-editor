@@ -101,11 +101,6 @@ class EditorWindow {
                         path.join(constants.APP_PATH, 'extensions', 'react-devtools', '2.1.7_0')
                     );
                 }
-                if (!extensions['Redux DevTools']) {
-                    BrowserWindow.addDevToolsExtension(
-                        path.join(constants.APP_PATH, 'extensions', 'redux-devtools', '2.15.0_0')
-                    );
-                }
                 require('devtron').install();
             }).call(this);
         }

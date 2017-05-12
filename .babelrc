@@ -24,7 +24,7 @@
     "development": {
       "presets": [
         "stage-0",
-        "es2016",
+        "es2015",
         "react"
       ],
       "plugins": [

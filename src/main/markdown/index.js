@@ -6,7 +6,7 @@ const markdown = require('markdown-it')({
     typographer: true,
     breaks: true,
     langPrefix: 'language-',
-    highlight: (str, lang) => {
+    highlight(str, lang) {
         if (lang && hljs.getLanguage(lang)) {
             return hljs.highlight(lang, str).value;
         } else {
@@ -72,11 +72,12 @@ markdown.renderer.renderToken = (tokens, idx, options) => {
 };
 
 module.exports = (text) => {
+    if (!text) return '';
     let result = false;
     try {
         result = markdown.render(text);
     } catch (e) {
-        console.log('Markdown parse error: ' + e.toString());
+        console.log(`Markdown parse error: ${e.toString()}`);
     }
     return result;
 };
