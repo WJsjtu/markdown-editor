@@ -1,8 +1,6 @@
 const path = require("path");
 const electron = require("electron");
 const {ipcRenderer} = electron;
-const React = require('react');
-const ReactDOM = require('react-dom');
 
 const ipcMessages = require("../../../frame/constants/ipcMessages");
 const constants = require("./../../../constants");

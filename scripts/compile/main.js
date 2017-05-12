@@ -6,38 +6,7 @@ const constants = require('../../constants');
 const development = process.env.NODE_ENV === 'development';
 
 const defaultOptions = {
-    externals: {
-        'react': {
-            root: 'React',
-            commonjs2: 'react',
-            commonjs: 'react',
-            amd: 'react',
-        },
-        'react-dom': {
-            root: 'ReactDOM',
-            commonjs2: 'react-dom',
-            commonjs: 'react-dom',
-            amd: 'react-dom',
-        },
-        'redux': {
-            root: 'Redux',
-            commonjs2: 'redux',
-            commonjs: 'redux',
-            amd: 'redux',
-        },
-        'react-redux': {
-            root: 'ReactRedux',
-            commonjs2: 'react-redux',
-            commonjs: 'react-redux',
-            amd: 'react-redux',
-        },
-        'prop-types': {
-            root: 'PropTypes',
-            commonjs2: 'prop-types',
-            commonjs: 'prop-types',
-            amd: 'prop-types'
-        }
-    },
+    externals: {},
     output: {
         path: path.join(constants.DIST_PATH, 'main'),
         libraryTarget: 'umd'
