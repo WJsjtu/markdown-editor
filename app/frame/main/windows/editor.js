@@ -243,7 +243,7 @@ ${content}
 
 electron.ipcMain.on(ipcMessages.editor.doc.change, (event, editor) => {
     const preview = markdown(editor.content);
-    if (preview) {
+    if (preview !== false) {
         event.sender.send(ipcMessages.editor.doc.preview, {
             id: editor.id,
             preview: preview

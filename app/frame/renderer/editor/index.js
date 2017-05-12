@@ -79,3 +79,6 @@ require("./loadMonaco")(UrlFromPath(path.resolve(constants.LID_PATH, "monaco/min
     });
 
 });
+
+//For debug
+window.store = webApp.store;

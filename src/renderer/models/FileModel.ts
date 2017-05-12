@@ -59,6 +59,7 @@ export default class FileModel extends EventEmitter {
         this.files.set(_file.id, _file);
         this.order.push(_file.id);
         this.activeID = _file.id;
+        this.history.push(_file.id);
         return _file;
     }
 
@@ -77,6 +78,9 @@ export default class FileModel extends EventEmitter {
                 if (this.files.has(this.activeID)) {
                     this.trigger('moveToFront', this.activeID, this.files.get(this.activeID).value);
                 }
+            }
+            if (id === this.activeID && !this.history.length) {
+                this.trigger('moveToFront', -1, '');
             }
         }
     }
