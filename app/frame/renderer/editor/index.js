@@ -25,11 +25,14 @@ const viewer = require("./createViewer")(
 );
 
 const App = require("./../../../dist/renderer/app").default;
-const webApp = new App();
-const tabView = webApp.createTabView(document.getElementById("tabs"));
-const editorView = webApp.createEditorView(document.getElementById("editor"));
+
 
 require("./loadMonaco")(UrlFromPath(path.resolve(constants.LID_PATH, "monaco/min")), () => {
+
+    const webApp = new App(document.getElementById("editor"));
+    //For debug
+    window.webApp = webApp;
+
     loading.hide();
     ipcRenderer.on(ipcMessages.editor.file.openStart, () => {
         loading.show("Opening file ...");
@@ -77,6 +80,3 @@ require("./loadMonaco")(UrlFromPath(path.resolve(constants.LID_PATH, "monaco/min
     });
 
 });
-
-//For debug
-window.store = webApp.store;

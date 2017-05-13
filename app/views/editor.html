@@ -16,14 +16,6 @@
             overflow: hidden;
         }
 
-        #tabs {
-            flex: 1;
-            min-height: 34px;
-            max-height: 34px;
-            overflow: hidden;
-            background-color: #252526;
-        }
-
         #main {
             display: flex;
             flex: 1;
@@ -40,8 +32,6 @@
     </style>
 </head>
 <body>
-
-<div id="tabs"></div>
 <div id="main">
     <div class="column">
         <div id="editor" style="margin-right: 5px; height: 100%;"></div>
@@ -54,7 +44,7 @@
 
     // Monaco uses a custom amd loader that over-rides node's require.
     // Keep a reference to node's require so we can restore it after executing the amd loader file.
-    var nodeRequire = global.require;
+    const nodeRequire = global.require;
 </script>
 <script src="../lib/monaco/min/vs/loader.js"></script>
 <script>

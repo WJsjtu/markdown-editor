@@ -1,6 +1,6 @@
 import {observable, computed, action} from 'mobx';
 import {ITabProps} from '../components/TabBar/index';
-import {IEditorProps} from '../components/EditorPanel/index';
+import {IEditorProps} from '../containers/EditorView';
 import EventEmitter from '../utils/EventEmitter';
 import IDGenerator from '../utils/IDGenerator';
 
@@ -35,13 +35,15 @@ class FileInstance implements IFile {
 
 export default class FileModel extends EventEmitter {
 
-    @observable public files: Map<string, FileInstance> = new Map();
+    public editor: any;
+
+    @observable protected files: Map<string, FileInstance> = new Map();
 
     protected history: Array<string> = [];
 
     @observable protected order: Array<string> = [];
 
-    @observable public activeID: string | null = null;
+    @observable protected activeID: string | null = null;
 
     constructor() {
         super();
@@ -49,8 +51,9 @@ export default class FileModel extends EventEmitter {
         this.removeFile = this.removeFile.bind(this);
         this.moveFileToFront = this.moveFileToFront.bind(this);
         this.swapTabs = this.swapTabs.bind(this);
-        this.modifyEditor = this.modifyEditor.bind(this);
-        this.scrollEditor = this.scrollEditor.bind(this);
+        this.registerEditor = this.registerEditor.bind(this);
+        //this.modifyEditor = this.modifyEditor.bind(this);
+        //this.scrollEditor = this.scrollEditor.bind(this);
     }
 
     @action
@@ -126,19 +129,36 @@ export default class FileModel extends EventEmitter {
     }
 
 
-    @computed get editors(): Array<IEditorProps> {
-        const editors: Array<IEditorProps> = [];
-        this.files.forEach((file: FileInstance, id: string) => {
-            editors.push({
-                id: id,
-                content: file.content
-            });
+    @computed get doc(): IEditorProps {
+        if (this.activeID && this.files.has(this.activeID)) {
+            return {
+                id: this.activeID,
+                value: this.files.get(this.activeID).value,
+                language: 'markdown'
+            };
+        } else {
+            return {
+                id: null,
+                value: null,
+                language: null
+            };
+        }
+    }
+
+    registerEditor(editor: any) {
+        this.editor = editor;
+
+        editor.onDidChangeModelContent(() => {
+            this.modifyEditor(this.activeID, editor.getModel().getValue());
         });
-        return editors;
+
+        editor.onDidScrollChange(() => {
+            this.scrollEditor(this.activeID, editor.getCompletelyVisibleLinesRangeInViewport().startLineNumber);
+        });
     }
 
     @action
-    modifyEditor(id: string, content: string): void {
+    protected modifyEditor(id: string, content: string): void {
         const file: FileInstance = this.files.get(id);
         if (!file) return;
         file.value = content;
@@ -146,8 +166,12 @@ export default class FileModel extends EventEmitter {
     }
 
     @action
-    scrollEditor(id: string, line: number) {
+    protected scrollEditor(id: string, line: number) {
         this.trigger('scroll', id, line);
+    }
+
+    public getActiveID(): string {
+        return this.activeID;
     }
 
 }
