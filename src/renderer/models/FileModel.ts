@@ -11,7 +11,7 @@ export interface IFile {
 }
 
 
-class IFileInstance implements IFile {
+class FileInstance implements IFile {
     public readonly id: string;
 
     @observable public value?: string;
@@ -35,7 +35,7 @@ class IFileInstance implements IFile {
 
 export default class FileModel extends EventEmitter {
 
-    @observable public files: Map<string, IFileInstance> = new Map();
+    @observable public files: Map<string, FileInstance> = new Map();
 
     protected history: Array<string> = [];
 
@@ -54,8 +54,8 @@ export default class FileModel extends EventEmitter {
     }
 
     @action
-    public addFile(file: IFile): IFileInstance {
-        const _file: IFileInstance = new IFileInstance(file);
+    public addFile(file: IFile): FileInstance {
+        const _file: FileInstance = new FileInstance(file);
         this.files.set(_file.id, _file);
         this.order.push(_file.id);
         this.activeID = _file.id;
@@ -128,7 +128,7 @@ export default class FileModel extends EventEmitter {
 
     @computed get editors(): Array<IEditorProps> {
         const editors: Array<IEditorProps> = [];
-        this.files.forEach((file: IFileInstance, id: string) => {
+        this.files.forEach((file: FileInstance, id: string) => {
             editors.push({
                 id: id,
                 content: file.content
@@ -139,7 +139,7 @@ export default class FileModel extends EventEmitter {
 
     @action
     modifyEditor(id: string, content: string): void {
-        const file: IFileInstance = this.files.get(id);
+        const file: FileInstance = this.files.get(id);
         if (!file) return;
         file.value = content;
         this.trigger('change', id, content);

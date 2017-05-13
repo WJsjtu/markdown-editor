@@ -112,7 +112,7 @@ webpack(options).run((err, stats) => {
     }
 
     console.log(stats.toString({
-        chunks: false,  // Makes the build much quieter
-        colors: true    // Shows colors in the console
+        chunks: false,
+        colors: true
     }));
 });
