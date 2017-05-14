@@ -6,7 +6,8 @@ export interface IEditorComponentProps {
     id: string | null,
     language: string,
     value?: string | null,
-    registerEditor: {
+    options: any,
+    editorDidMount: {
         (editor: any): void
     }
 }
@@ -21,7 +22,7 @@ const style = {
     height: '100%',
 };
 
-export default class Editor extends React.PureComponent<IEditorComponentProps, undefined> {
+export default class Editor extends React.Component<IEditorComponentProps, undefined> {
 
     protected element: HTMLElement;
 
@@ -30,19 +31,25 @@ export default class Editor extends React.PureComponent<IEditorComponentProps, u
     protected editorStates: Map<string, IEditorState> = new Map();
 
     componentDidMount() {
-        const {registerEditor, language} = this.props;
+        const {editorDidMount, options, language} = this.props;
 
         this.editor = monaco.editor.create(this.element, {
+            ...options,
             model: null,
             language: language,
-            theme: 'vs-dark',
-            automaticLayout: true
         });
 
-        registerEditor(this.editor);
+        editorDidMount(this.editor);
     }
 
     componentWillReceiveProps(nextProps: IEditorComponentProps) {
+
+        if (!this.editor) return;
+
+        if (this.props.options !== nextProps.options) {
+            this.editor.updateOptions(nextProps.options);
+        }
+
         if (this.props.id === nextProps.id) return;
 
         if (nextProps.id === null) {
@@ -76,6 +83,8 @@ export default class Editor extends React.PureComponent<IEditorComponentProps, u
             }
         }
     }
+
+    shouldComponentUpdate = () => false;
 
     componentWillUnmount() {
         this.editor.dispose();
