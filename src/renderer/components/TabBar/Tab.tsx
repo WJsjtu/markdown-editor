@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as PureRenderMixin from 'react-addons-pure-render-mixin';
 
 const styles = require<any>('./less/index.less');
 
@@ -24,15 +23,12 @@ export interface ITabComponentProps {
 }
 
 
-export default class Tab extends React.Component<ITabComponentProps, undefined> {
-
-    public shouldComponentUpdate?(nextProps: any, nextState: any, nextContext: any): boolean;
+export default class Tab extends React.PureComponent<ITabComponentProps, undefined> {
 
     constructor(props: ITabComponentProps) {
         super(props);
         this.onClick = this.onClick.bind(this);
         this.onClose = this.onClose.bind(this);
-        this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
     }
 
     onClick(event: any): any {

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as PureRenderMixin from 'react-addons-pure-render-mixin';
 
 declare const monaco: any;
 
@@ -22,20 +21,13 @@ const style = {
     height: '100%',
 };
 
-export default class Editor extends React.Component<IEditorComponentProps, undefined> {
+export default class Editor extends React.PureComponent<IEditorComponentProps, undefined> {
 
     protected element: HTMLElement;
 
     public editor: any;
 
     protected editorStates: Map<string, IEditorState> = new Map();
-
-    public shouldComponentUpdate?(nextProps: any, nextState: any, nextContext: any): boolean;
-
-    constructor(props: IEditorComponentProps) {
-        super(props);
-        this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
-    }
 
     componentDidMount() {
         const {registerEditor, language} = this.props;
