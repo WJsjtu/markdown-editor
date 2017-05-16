@@ -10,7 +10,6 @@ export interface IFile {
     content: string
 }
 
-
 class FileInstance implements IFile {
     public readonly id: string;
 

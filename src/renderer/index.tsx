@@ -10,6 +10,6 @@ export default class App {
     public readonly store: EditorModel = editorStore;
 
     constructor(container: HTMLElement) {
-        ReactDOM.render(<EditorView fileModel={this.store}/>, container);
+        ReactDOM.render(<EditorView editorModel={this.store}/>, container);
     }
 }
