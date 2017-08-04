@@ -3,7 +3,7 @@ import {DropTarget} from 'react-dnd';
 import TabDraggable, {TAB_DND_TYPE} from './TabDraggable';
 import {ITabClickCallback, ITabCloseCallback} from './Tab'
 
-const styles = require<any>('./less/index.less');
+const styles = require('./less/index.less');
 
 export interface ITabProps {
     id: string,

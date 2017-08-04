@@ -2,7 +2,7 @@ import * as React from 'react';
 import {DragSource, DropTarget} from 'react-dnd';
 
 import Tab, {ITabCloseCallback, ITabClickCallback} from './Tab';
-const styles = require<any>('./less/index.less');
+const styles = require('./less/index.less');
 
 export interface IDraggableTagProps {
     dnd_connectDragSource?: any,
@@ -43,15 +43,15 @@ const tabTarget = {
     }
 };
 
-@DropTarget<IDraggableTagProps>(TAB_DND_TYPE, tabTarget, (connect, monitor) => ({
+@(DropTarget<IDraggableTagProps>(TAB_DND_TYPE, tabTarget, (connect, monitor) => ({
     dnd_connectDropTarget: connect.dropTarget(),
     dnd_isOver: monitor.isOver()
-}))
-@DragSource<IDraggableTagProps>(TAB_DND_TYPE, tabSource, (connect, monitor) => ({
+})) as any)
+@(DragSource<IDraggableTagProps>(TAB_DND_TYPE, tabSource, (connect, monitor) => ({
     dnd_connectDragSource: connect.dragSource(),
     dnd_connectDragPreview: connect.dragPreview(),
     dnd_isDragging: monitor.isDragging()
-}))
+})) as any)
 export default class DraggableTab extends React.Component<IDraggableTagProps, undefined> {
 
     render() {

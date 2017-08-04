@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-const styles = require<any>('./less/index.less');
+const styles = require('./less/index.less');
 
 export type TabMode = 'hidden' | 'active' | 'layer' | 'hover';
 

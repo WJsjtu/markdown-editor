@@ -3,7 +3,7 @@ import {observer} from 'mobx-react';
 import EditorModel from '../models/EditorModel'
 import Editor from '../components/Editor/index';
 import TabBar from '../components/TabBar/index';
-const styles = require<any>('./EditorView.less');
+const styles = require('./EditorView.less');
 
 export interface  IEditorViewProps {
     editorModel: EditorModel

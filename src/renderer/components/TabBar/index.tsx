@@ -4,7 +4,7 @@ import * as HTML5Backend from 'react-dnd-html5-backend';
 
 import TabBarFrame, {ITabProps} from './TabBarFrame';
 import {ITabClickCallback, ITabCloseCallback} from './Tab'
-const styles = require<any>('./less/index.less');
+const styles = require('./less/index.less');
 
 export {ITabProps};
 
@@ -16,7 +16,7 @@ export interface ITabBarProps {
     onTabSwap?: (fromID: string, toID: string) => any
 }
 
-@DragDropContext<ITabBarProps>(HTML5Backend)
+@(DragDropContext<ITabBarProps>(HTML5Backend) as any)
 export default class TabBar extends React.Component<ITabBarProps, undefined> {
 
     render() {

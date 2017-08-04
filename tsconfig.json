@@ -4,6 +4,7 @@
       "typings",
       "./node_modules/@types"
     ],
+    "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "outDir": "./dist/",
     "sourceMap": true,

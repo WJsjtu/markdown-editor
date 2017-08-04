@@ -84,7 +84,9 @@ export default class Editor extends React.Component<IEditorComponentProps, undef
         }
     }
 
-    shouldComponentUpdate = () => false;
+    shouldComponentUpdate() {
+        return false;
+    };
 
     componentWillUnmount() {
         this.editor.dispose();
